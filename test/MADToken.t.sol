@@ -18,6 +18,7 @@ contract DeployerProbe {
     }
 }
 
+/// forge-config: default.fuzz.runs = 1000
 contract MADTokenTest is Test {
     uint256 internal constant SUPPLY = 1_000_000_000 ether;
 
@@ -399,12 +400,20 @@ contract MADTokenTest is Test {
     // ------------------------------------------------------------------
 
     function testFuzz_transferConservesSupply(address to, uint256 amount) public {
-        vm.assume(to != address(0));
+        to = address(uint160(bound(uint160(to), 1, type(uint160).max)));
         amount = bound(amount, 0, SUPPLY);
         vm.prank(deployer);
         assertTrue(token.transfer(to, amount));
-        assertEq(token.balanceOf(to) + token.balanceOf(deployer), SUPPLY);
+        if (to == deployer) {
+            assertEq(token.balanceOf(deployer), SUPPLY);
+        } else {
+            assertEq(token.balanceOf(to) + token.balanceOf(deployer), SUPPLY);
+        }
         assertEq(token.totalSupply(), SUPPLY);
+    }
+
+    function test_transferConservationIncludesSelfRecipient() public {
+        testFuzz_transferConservesSupply(deployer, SUPPLY);
     }
 
     function testFuzz_transferOverBalanceReverts(uint256 amount) public {
