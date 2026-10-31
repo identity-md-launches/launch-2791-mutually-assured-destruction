@@ -1,0 +1,24 @@
+{
+  "kind": "custom_token",
+  "token": {
+    "contract": "MADToken",
+    "name": "Mutually Assured Destruction",
+    "symbol": "MAD",
+    "decimals": 18,
+    "constructorArgs": [],
+    "totalSupply": "1000000000000000000000000000"
+  },
+  "contracts": [],
+  "pool": {
+    "pairedCurrency": "0xa0df17b5ac76ababa36e1450e2cbcd18a620c845",
+    "fee": 12500,
+    "tickSpacing": 60,
+    "initialPrice": "79228162514264337593543950336"
+  },
+  "economics": {
+    "poolBps": 5000,
+    "initialMarketCapWei": "2000000000000000000000000",
+    "remainderTo": "0x019817ad02a31b990433542097be29d97613e8cb"
+  },
+  "notes": "MADToken (src/MADToken.sol) is a fixed-supply OpenZeppelin ERC-20 with ERC20Burnable and ERC20Permit. Its constructor takes no arguments and mints 1,000,000,000 MAD (18 decimals, 1000000000000000000000000000 minor units) once to msg.sender, the factory; nothing can mint afterwards. It has no owner, admin, pause, blocklist, transfer fee or upgrade path, so launch flows (factory to distributor, pool seeding, claims and swaps) move exactly what they say. Holders may burn their own tokens, or burnFrom only within an allowance they granted. No application contracts are deployed with this launch."
+}
